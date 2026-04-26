@@ -1623,12 +1623,12 @@ function App() {
             { meta: 'Java / Fabric / Minecraft', title: 'Musoku Again', desc: 'Мод для Minecraft на основе аниме Mushoku Tensei. Система магии, стойки, кастомные мобы, боссы и полноценная прогрессия персонажа.', points: ['Fabric 1.21.1','Кастомные механики и HUD','Система спеллов, маны и токи','Боссы и кастомные мобы'], links: [{ label: 'GitHub', href: 'https://github.com/asidache/musokuagain' }] },
             { meta: 'Java / Meteor Client', title: 'Addon for Chembers', desc: 'Аддон для Meteor-клиента, отображающий залутанные хранилища в Дворце испытаний. Позволяет не тратить время на уже обысканные комнаты.', points: ['Интеграция с Meteor Client','Отслеживание залутанных хранилищ','Дворец испытаний (Trial Chambers)','Лёгкая установка'], links: [{ label: 'GitHub', href: 'https://github.com/asidache/addonforchembers' }] },
           ].map((p, i) => (
-            <Reveal key={i} delay={i}>
-              <Card3D>
+            <Reveal key={i} delay={i} style={{height:'100%'}}>
+              <Card3D style={{height:'100%', display:'flex', flexDirection:'column'}}>
                 <div className="project-meta-tag">{p.meta}</div>
                 <h3>{p.title}</h3>
                 <p>{p.desc}</p>
-                <ul className="project-points">
+                <ul className="project-points" style={{flex:1}}>
                   {p.points.map(pt => <li key={pt}>{pt}</li>)}
                 </ul>
                 <div className="project-links">
