@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Александр Черненко — Портфолио</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%2308110d'/><text x='50%25' y='56%25' text-anchor='middle' font-family='monospace' font-size='24' font-weight='700' fill='%234ade80'>AC</text></svg>">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=JetBrains+Mono:wght@300;400;500;700&family=Manrope:wght@300;400;500;600;700&display=swap');
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<style>
+/* ===== TOKENS ===== */
+:root {
+  --bg-0: #050807;
+  --bg-1: #0a0f0c;
+  --bg-2: #0e1512;
+  --panel: rgba(10,18,14,0.72);
+  --panel-solid: #0c1410;
+  --line: rgba(74,222,128,0.12);
+  --line-strong: rgba(74,222,128,0.28);
+  --text: #daf5e4;
+  --text-dim: #88a097;
+  --text-mute: #4a6358;
+  --green: #4ade80;
+  --green-bright: #7cffa0;
+  --cyan: #22d3ee;
+  --yellow: #facc15;
+  --magenta: #f472b6;
+  --shadow-glow: 0 0 60px rgba(74,222,128,0.15);
+  --radius: 16px;
+  --radius-sm: 8px;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --display: 'Unbounded', system-ui, sans-serif;
+  --body: 'Manrope', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg-0);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: rgba(74,222,128,0.3); color: #fff; }
+a { color: inherit; text-decoration: none; }
+
+/* ===== LIGHT THEME ===== */
+html[data-theme="light"] {
+  --bg-0: #f5f7f6; --bg-1: #ffffff; --bg-2: #ffffff; --bg-3: #f0f2f1;
+  --panel: rgba(255,255,255,0.85); --panel-solid: #ffffff;
+  --line: rgba(0,0,0,0.08); --line-strong: rgba(0,0,0,0.16);
+  --text: #111827; --text-dim: #374151; --text-mute: #6b7280;
+  --green: #16a34a; --green-bright: #15803d;
+  --cyan: #0891b2; --yellow: #92400e; --magenta: #9d174d;
+  --shadow-glow: 0 2px 16px rgba(0,0,0,0.08);
+}
+html[data-theme="light"] body { background: var(--bg-0); }
+html[data-theme="light"] .aurora,
+html[data-theme="light"] .scanlines,
+html[data-theme="light"] .grid-overlay,
+html[data-theme="light"] .cursor-glow { display: none !important; }
+html[data-theme="light"] .nav-bar {
+  background: rgba(255,255,255,0.9); border-bottom-color: rgba(0,0,0,0.08);
+  box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+}
+html[data-theme="light"] .hero-terminal {
+  background: linear-gradient(180deg,#fff,#f6f8f7);
+  border-color: rgba(0,0,0,0.1); box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+html[data-theme="light"] .hero-terminal .terminal-bar { background: rgba(0,0,0,0.03); }
+html[data-theme="light"] .terminal-body { color: #274438; }
+html[data-theme="light"] .terminal-body .kw { color: #a83f7a; }
+html[data-theme="light"] .terminal-body .str { color: #9b6a00; }
+html[data-theme="light"] .card-3d,
+html[data-theme="light"] .panel-block,
+html[data-theme="light"] .project-card,
+html[data-theme="light"] .stat-card,
+html[data-theme="light"] .person-card,
+html[data-theme="light"] .cta-inner {
+  background: #fff; border-color: rgba(0,0,0,0.08);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+html[data-theme="light"] .card-3d:hover,
+html[data-theme="light"] .panel-block:hover,
+html[data-theme="light"] .person-card:hover,
+html[data-theme="light"] .stat-card:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.14);
+}
+html[data-theme="light"] .btn {
+  background: rgba(22,163,74,0.1); color: #15803d; border-color: rgba(22,163,74,0.28);
+}
+html[data-theme="light"] .btn:hover {
+  background: linear-gradient(135deg,#16a34a,#15803d); color: #fff;
+  border-color: #16a34a; box-shadow: 0 8px 24px rgba(22,163,74,0.22);
+}
+html[data-theme="light"] .btn-ghost { background:transparent; color:#374151; border-color:rgba(0,0,0,0.15); }
+html[data-theme="light"] .btn-ghost:hover { background:rgba(8,145,178,0.1); color:#0891b2; border-color:#0891b2; }
+html[data-theme="light"] .tag {
+  background: rgba(22,163,74,0.07); border-color: rgba(22,163,74,0.18);
+}
+html[data-theme="light"] .skill-meter-bar { background: rgba(0,0,0,0.06); border-color: rgba(0,0,0,0.1); }
+html[data-theme="light"] .skill-meter-fill { box-shadow: none; }
+html[data-theme="light"] .parallax-band { background: rgba(22,163,74,0.03); }
+html[data-theme="light"] .section-divider { background: linear-gradient(90deg,transparent,rgba(22,163,74,0.3),transparent); }
+html[data-theme="light"] .scroll-progress { box-shadow: none; }
+html[data-theme="light"] .person-traits li { background: rgba(0,0,0,0.03); }
+html[data-theme="light"] .project-links a { color: #0891b2; border-color: rgba(0,0,0,0.1); background: rgba(0,0,0,0.02); }
+html[data-theme="light"] ::selection { background: rgba(22,163,74,0.2); color: #061a0e; }
+html[data-theme="light"] .site-footer { border-top-color: rgba(0,0,0,0.08); }
+html[data-theme="light"] .hero-title .amp { text-shadow: none; }
+
+/* ===== THEME TOGGLE ===== */
+.theme-toggle {
+  width: 40px; height: 40px; display: inline-grid; place-items: center;
+  border-radius: 999px; border: 1px solid var(--line);
+  background: rgba(255,255,255,0.03); color: var(--text);
+  font-size: 1rem; cursor: pointer; transition: all 0.2s;
+  flex-shrink: 0;
+}
+.theme-toggle:hover {
+  border-color: var(--line-strong); background: rgba(74,222,128,0.08);
+  color: var(--green-bright); transform: translateY(-1px);
+}
+html[data-theme="light"] .theme-toggle { background: rgba(0,0,0,0.03); }
+
+/* ===== SCROLL PROGRESS ===== */
+.scroll-progress {
+  position: fixed; top: 0; left: 0; height: 2px; width: 0%;
+  background: linear-gradient(90deg, var(--green), var(--cyan));
+  box-shadow: 0 0 12px var(--green);
+  z-index: 9999;
+  transition: width 0.05s linear;
+}
+
+/* ===== PARTICLE CANVAS ===== */
+#particles {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+}
+
+/* ===== AURORA BG ===== */
+.aurora {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 10%, rgba(74,222,128,0.18), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 85% 20%, rgba(34,211,238,0.12), transparent 60%),
+    radial-gradient(ellipse 80% 60% at 50% 110%, rgba(124,255,160,0.08), transparent 65%);
+  animation: auroraShift 18s ease-in-out infinite alternate;
+}
+@keyframes auroraShift {
+  0%   { filter: hue-rotate(0deg); opacity: 1; }
+  50%  { filter: hue-rotate(-15deg); opacity: 0.8; }
+  100% { filter: hue-rotate(10deg); opacity: 1; }
+}
+
+/* ===== CURSOR GLOW ===== */
+.cursor-glow {
+  position: fixed; width: 400px; height: 400px;
+  border-radius: 50%; pointer-events: none; z-index: 0;
+  background: radial-gradient(circle, rgba(74,222,128,0.06) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  transition: left 0.15s ease-out, top 0.15s ease-out;
+}
+
+/* ===== GLITCH ===== */
+@keyframes glitch {
+  0%   { transform: none; text-shadow: none; }
+  5%   { transform: skewX(-4deg) translateX(-3px); text-shadow: 3px 0 var(--cyan), -3px 0 var(--magenta); }
+  8%   { transform: skewX(2deg) translateX(2px); text-shadow: -2px 0 var(--cyan), 2px 0 var(--magenta); filter: brightness(1.2); }
+  10%  { transform: none; text-shadow: none; filter: none; }
+  100% { transform: none; text-shadow: none; }
+}
+.glitch-active { animation: glitch 0.5s steps(1) forwards; }
+
+/* ===== PARALLAX ===== */
+.parallax-section { will-change: transform; }
+
+/* Delassus-style: full-bleed parallax image bands */
+.parallax-band {
+  position: relative; overflow: hidden;
+  height: 55vh; min-height: 340px;
+  display: flex; align-items: center; justify-content: center;
+}
+.parallax-band-bg {
+  position: absolute; inset: -20%; z-index: 0;
+  background-size: cover; background-position: center;
+  will-change: transform;
+  transition: transform 0.05s linear;
+}
+.parallax-band-content {
+  position: relative; z-index: 1; text-align: center;
+  padding: 40px;
+}
+.parallax-band-content h2 {
+  font-family: var(--display); font-size: clamp(2rem, 4vw, 3.6rem);
+  font-weight: 900; letter-spacing: -0.03em;
+  text-shadow: 0 4px 40px rgba(0,0,0,0.7);
+}
+.parallax-band-content p {
+  font-size: 1.1rem; color: var(--text-dim); margin-top: 12px;
+  max-width: 50ch; margin-left: auto; margin-right: auto;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.6);
+}
+
+/* Scroll-driven scale zoom on hero terminal */
+.hero-terminal-wrap {
+  will-change: transform, opacity;
+  transition: transform 0.05s linear, opacity 0.05s linear;
+}
+
+/* Floating elements that move on scroll */
+.float-element {
+  position: absolute; pointer-events: none;
+  will-change: transform;
+  transition: transform 0.08s linear;
+}
+.float-orb {
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(74,222,128,0.15), transparent 70%);
+  filter: blur(40px);
+}
+
+/* Hero scroll indicator */
+.scroll-hint {
+  position: absolute; bottom: 40px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 0.72rem; color: var(--text-mute);
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+.scroll-hint-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(180deg, var(--green), transparent);
+}
+@keyframes scrollBounce {
+  0%,100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+  50% { transform: translateX(-50%) translateY(10px); opacity: 0.5; }
+}
+
+/* Section divider — glowing line */
+.section-divider {
+  max-width: 1240px; margin: 0 auto; padding: 0 32px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--green), transparent);
+  opacity: 0.3;
+}
+
+/* ===== MAGNETIC BUTTON ===== */
+.btn-magnetic {
+  transition: transform 0.2s cubic-bezier(0.22,1,0.36,1);
+}
+
+/* ===== STAGGERED TEXT ===== */
+.stagger-word {
+  display: inline-block;
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+.stagger-word.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== NAV ACTIVE INDICATOR ===== */
+.nav-links a {
+  position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: 2px; left: 50%; width: 0; height: 2px;
+  background: var(--green); border-radius: 1px;
+  transform: translateX(-50%); transition: width 0.3s cubic-bezier(0.22,1,0.36,1);
+}
+.nav-links a:hover::after, .nav-links a.active::after { width: 60%; }
+
+/* ===== HOVER LIFT CARDS ===== */
+.panel-block {
+  transition: all 0.35s cubic-bezier(0.22,1,0.36,1);
+}
+.panel-block:hover {
+  transform: translateY(-4px); border-color: var(--line-strong);
+  box-shadow: var(--shadow-glow);
+}
+
+/* ===== MATRIX RAIN (optional bg) ===== */
+#matrixCanvas {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  opacity: 0.04;
+}
+
+/* ===== SCANLINES OVERLAY ===== */
+.scanlines {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15) 0 1px, transparent 1px 3px);
+  opacity: 0.3; mix-blend-mode: multiply;
+}
+
+/* ===== GRID OVERLAY ===== */
+.grid-overlay {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(74,222,128,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74,222,128,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.6;
+}
+
+/* ===== INTERACTIVE CODE BLOCK ===== */
+.code-run-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 999px;
+  border: 1px solid var(--line); background: rgba(74,222,128,0.08);
+  color: var(--green); font-family: var(--mono); font-size: 0.76rem;
+  cursor: pointer; transition: all 0.2s; margin-left: auto;
+}
+.code-run-btn:hover {
+  background: var(--green); color: #04180b; border-color: var(--green);
+  transform: translateY(-1px); box-shadow: 0 4px 16px rgba(74,222,128,0.3);
+}
+.code-output {
+  margin-top: 0; padding: 14px 18px;
+  background: rgba(0,0,0,0.3); border-top: 1px solid var(--line);
+  font-family: var(--mono); font-size: 0.82rem;
+  color: var(--green-bright); min-height: 40px;
+  transition: all 0.3s;
+}
+html[data-theme="light"] .code-output { background: rgba(0,0,0,0.03); }
+.code-output-line {
+  opacity: 0; transform: translateX(-10px);
+  animation: outputSlide 0.3s ease forwards;
+}
+@keyframes outputSlide {
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* ===== ANIMATED COUNTER ===== */
+.counter-animate {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===== SKILL METERS ===== */
+.skill-meter-row { display: flex; flex-direction: column; gap: 14px; margin-top: 16px; }
+.skill-meter-item { display: flex; flex-direction: column; gap: 6px; }
+.skill-meter-label {
+  display: flex; justify-content: space-between;
+  font-family: var(--mono); font-size: 0.82rem; color: var(--text-dim);
+}
+.skill-meter-bar {
+  height: 6px; border-radius: 999px;
+  background: rgba(255,255,255,0.06); border: 1px solid var(--line);
+  overflow: hidden;
+}
+.skill-meter-fill {
+  height: 100%; border-radius: inherit;
+  background: linear-gradient(90deg, var(--green), var(--cyan));
+  box-shadow: 0 0 12px rgba(74,222,128,0.3);
+  transition: width 1.2s cubic-bezier(0.22,1,0.36,1);
+  width: 0;
+}
+.skill-meter-fill.filled { width: var(--fill); }
+
+/* ===== PERSON CARDS ===== */
+.persons-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  max-width: 1240px; margin: 0 auto; padding: 0 32px;
+}
+.person-card {
+  padding: 32px 28px; border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--panel); backdrop-filter: blur(10px);
+  transition: all 0.35s cubic-bezier(0.22,1,0.36,1);
+  position: relative; overflow: hidden;
+}
+.person-card:hover {
+  border-color: var(--line-strong); transform: translateY(-4px);
+  box-shadow: var(--shadow-glow);
+}
+.person-card::before {
+  content: 'cat ./person.json'; position: absolute; top: 14px; right: 18px;
+  font-family: var(--mono); font-size: 0.7rem; color: var(--text-mute); opacity: 0.6;
+}
+.person-avatar {
+  width: 72px; height: 72px; border-radius: 16px; overflow: hidden;
+  margin-bottom: 18px; border: 2px solid var(--line-strong);
+  box-shadow: 0 8px 24px rgba(74,222,128,0.15);
+}
+.person-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.person-card h3 {
+  font-family: var(--display); font-size: 1.35rem; font-weight: 700; margin-bottom: 10px;
+}
+.person-card > p { color: var(--text-dim); margin-bottom: 16px; font-size: 0.93rem; }
+.person-traits {
+  list-style: none; font-family: var(--mono); font-size: 0.84rem;
+}
+.person-traits li {
+  padding: 7px 12px; margin-bottom: 6px;
+  background: rgba(255,255,255,0.02); border-left: 2px solid var(--green);
+  border-radius: 4px; color: var(--text-dim);
+}
+
+@media (max-width: 900px) {
+  .persons-grid { grid-template-columns: 1fr; }
+}
+
+/* ===== NAV ===== */
+.nav-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(5,8,7,0.55);
+  backdrop-filter: blur(20px) saturate(140%);
+  border-bottom: 1px solid var(--line);
+  transition: background 0.3s;
+}
+.nav-inner {
+  max-width: 1240px; margin: 0 auto;
+  padding: 14px 32px;
+  display: flex; align-items: center; justify-content: center; gap: 24px;
+  position: relative;
+}
+.theme-toggle {
+  position: absolute; right: 32px;
+}
+
+/* LOGO */
+.logo-mark {
+  display: flex; align-items: center; gap: 12px; cursor: pointer;
+}
+.logo-symbol {
+  width: 38px; height: 38px; position: relative;
+}
+.logo-symbol svg { width: 100%; height: 100%; }
+.logo-text {
+  font-family: var(--display); font-weight: 800; font-size: 1.1rem;
+  letter-spacing: -0.02em; color: var(--text);
+}
+
+.nav-links {
+  display: flex; gap: 4px; list-style: none;
+  font-family: var(--mono); font-size: 0.84rem;
+}
+.nav-links a {
+  padding: 8px 14px; border-radius: var(--radius-sm);
+  color: var(--text-dim); border: 1px solid transparent;
+  transition: all 0.2s;
+  position: relative;
+}
+.nav-links a:hover, .nav-links a.active {
+  color: var(--green); border-color: var(--line-strong);
+  background: rgba(74,222,128,0.06);
+}
+
+/* ===== PAGES CONTAINER ===== */
+.page { position: relative; z-index: 1; }
+
+/* ===== HERO ===== */
+.hero-section {
+  min-height: 100vh; display: flex; align-items: center;
+  padding: 120px 32px 80px; position: relative; overflow: hidden;
+}
+.hero-grid {
+  max-width: 1240px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: center;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px; border-radius: 999px;
+  border: 1px solid var(--line); background: rgba(74,222,128,0.05);
+  font-family: var(--mono); font-size: 0.78rem; color: var(--green);
+  margin-bottom: 24px;
+}
+.hero-badge::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green); box-shadow: 0 0 8px var(--green);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+.hero-title {
+  font-family: var(--display); font-weight: 900;
+  font-size: clamp(2.8rem, 5.5vw, 5.2rem);
+  line-height: 1.02; letter-spacing: -0.04em;
+  margin-bottom: 20px;
+}
+.hero-title .amp {
+  display: inline-block;
+  font-family: var(--mono); font-weight: 300; font-size: 0.65em;
+  color: var(--green); vertical-align: middle; padding: 0 8px;
+  text-shadow: 0 0 20px rgba(74,222,128,0.6);
+}
+.hero-sub {
+  font-size: 1.1rem; color: var(--text-dim); max-width: 500px;
+  margin-bottom: 36px; line-height: 1.7;
+}
+.hero-buttons { display: flex; flex-wrap: wrap; gap: 14px; }
+
+/* BUTTONS */
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 26px; border-radius: 999px;
+  font-family: var(--mono); font-weight: 500; font-size: 0.9rem;
+  border: 1px solid var(--line-strong);
+  background: linear-gradient(135deg, rgba(74,222,128,0.12), rgba(34,211,238,0.08));
+  color: var(--green-bright);
+  transition: all 0.3s cubic-bezier(0.22,1,0.36,1);
+  cursor: pointer; position: relative; overflow: hidden;
+}
+.btn:hover {
+  background: linear-gradient(135deg, var(--green-bright), var(--green));
+  color: #04180b; border-color: var(--green-bright);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(74,222,128,0.35);
+}
+.btn-ghost {
+  background: transparent; color: var(--text); border-color: var(--line);
+}
+.btn-ghost:hover {
+  background: rgba(34,211,238,0.1); color: var(--cyan);
+  border-color: var(--cyan);
+}
+
+/* HERO CODE */
+.hero-terminal {
+  border-radius: var(--radius); overflow: hidden;
+  border: 1px solid var(--line-strong);
+  background: linear-gradient(180deg, #080d0a, #060906);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.5), var(--shadow-glow);
+  transform: perspective(1200px) rotateY(-3deg) rotateX(1.5deg);
+  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+}
+.hero-terminal:hover {
+  transform: perspective(1200px) rotateY(0deg) rotateX(0deg);
+}
+.terminal-bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 18px;
+  background: rgba(0,0,0,0.5); border-bottom: 1px solid var(--line);
+}
+.terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+.terminal-dot:nth-child(1) { background: #ef4444; }
+.terminal-dot:nth-child(2) { background: #facc15; }
+.terminal-dot:nth-child(3) { background: #4ade80; }
+.terminal-title {
+  flex: 1; text-align: center;
+  font-family: var(--mono); font-size: 0.75rem; color: var(--text-mute);
+}
+.terminal-body {
+  padding: 22px 24px; font-family: var(--mono); font-size: 0.88rem;
+  line-height: 1.8; color: #c7e4d1;
+}
+.terminal-body .kw { color: var(--magenta); font-weight: 500; }
+.terminal-body .str { color: var(--yellow); }
+.terminal-body .fn { color: var(--cyan); }
+.terminal-body .cm { color: var(--text-mute); }
+
+/* ===== STATS ===== */
+.stats-row {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 16px;
+  max-width: 1240px; margin: 0 auto; padding: 0 32px;
+}
+.stat-card {
+  padding: 24px 20px;
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--panel); backdrop-filter: blur(10px);
+  transition: all 0.3s;
+}
+.stat-card:hover {
+  border-color: var(--line-strong); transform: translateY(-4px);
+  box-shadow: var(--shadow-glow);
+}
+.stat-num {
+  font-family: var(--display); font-size: 2.2rem; font-weight: 800;
+  color: var(--green-bright); line-height: 1;
+}
+.stat-label {
+  font-family: var(--mono); font-size: 0.8rem; color: var(--text-dim);
+  margin-top: 8px;
+}
+
+/* ===== SECTION HEADINGS ===== */
+.section-head {
+  max-width: 1240px; margin: 0 auto;
+  padding: 100px 32px 40px;
+}
+.eyebrow {
+  font-family: var(--mono); font-size: 0.78rem; color: var(--green);
+  letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 12px;
+}
+.section-head h2 {
+  font-family: var(--display); font-size: clamp(1.8rem,3vw,2.8rem);
+  line-height: 1.08; letter-spacing: -0.02em; margin-bottom: 14px;
+}
+.section-lead {
+  color: var(--text-dim); font-size: 1.02rem; max-width: 64ch;
+}
+
+/* ===== CARDS GRID ===== */
+.cards-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 20px;
+  max-width: 1240px; margin: 0 auto; padding: 0 32px;
+}
+
+.card-3d {
+  position: relative; padding: 28px 26px 30px;
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: var(--radius); overflow: hidden;
+  backdrop-filter: blur(10px);
+  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1),
+              box-shadow 0.4s ease, border-color 0.3s;
+  transform-style: preserve-3d; cursor: pointer;
+  text-decoration: none; color: inherit; display: block;
+}
+.card-3d::before {
+  content: '';
+  position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
+  background: radial-gradient(500px circle at var(--mx,50%) var(--my,50%),
+    rgba(74,222,128,0.5), transparent 40%);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude; opacity: 0; transition: opacity 0.3s;
+  pointer-events: none;
+}
+.card-3d:hover { border-color: var(--line-strong); }
+.card-3d:hover::before { opacity: 1; }
+.card-3d .card-arrow {
+  position: absolute; top: 18px; right: 20px;
+  font-size: 1.2rem; color: var(--text-mute);
+  transition: all 0.3s;
+}
+.card-3d:hover .card-arrow { color: var(--green); transform: translate(3px,-3px); }
+
+.card-icon-box {
+  width: 52px; height: 52px; display: grid; place-items: center;
+  border: 1px solid var(--line); border-radius: 12px;
+  background: rgba(74,222,128,0.06); margin-bottom: 18px;
+  font-size: 1.6rem;
+}
+.card-3d h3 {
+  font-family: var(--display); font-size: 1.3rem; font-weight: 700;
+  margin-bottom: 8px;
+}
+.card-3d p { color: var(--text-dim); font-size: 0.93rem; }
+
+/* ===== PROJECT CARDS ===== */
+.projects-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 20px;
+  max-width: 1240px; margin: 0 auto; padding: 0 32px;
+}
+.project-card {
+  position: relative; padding: 28px 26px;
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--panel); backdrop-filter: blur(10px);
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.22,1,0.36,1);
+  transform-style: preserve-3d;
+}
+.project-card:hover {
+  transform: translateY(-6px); border-color: var(--line-strong);
+  box-shadow: var(--shadow-glow);
+}
+.project-meta-tag {
+  display: inline-flex; padding: 5px 10px; border-radius: 999px;
+  border: 1px solid var(--line); font-family: var(--mono);
+  font-size: 0.74rem; color: var(--green-bright);
+  background: rgba(74,222,128,0.06); margin-bottom: 14px;
+}
+.project-card h3 {
+  font-family: var(--display); font-size: 1.2rem; font-weight: 700;
+  margin-bottom: 10px;
+}
+.project-card > p { color: var(--text-dim); margin-bottom: 14px; font-size: 0.93rem; }
+.project-points { list-style: none; font-family: var(--mono); font-size: 0.82rem; }
+.project-points li {
+  color: var(--text-dim); padding: 4px 0 4px 18px; position: relative;
+}
+.project-points li::before {
+  content: '▸'; position: absolute; left: 0; color: var(--green);
+}
+.project-links {
+  display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px;
+}
+.project-links a {
+  padding: 7px 12px; border-radius: 999px;
+  border: 1px solid var(--line); font-family: var(--mono);
+  font-size: 0.78rem; color: var(--cyan);
+  background: rgba(255,255,255,0.02);
+  transition: all 0.2s;
+}
+.project-links a:hover {
+  color: var(--green-bright); border-color: var(--line-strong);
+  background: rgba(74,222,128,0.08); transform: translateY(-2px);
+}
+
+/* ===== FEATURE GRID ===== */
+.feature-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  max-width: 1240px; margin: 0 auto; padding: 0 32px;
+}
+.panel-block {
+  padding: 28px 26px;
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(74,222,128,0.03), rgba(34,211,238,0.02)), var(--panel);
+  backdrop-filter: blur(10px);
+}
+.panel-block h3 {
+  font-family: var(--display); font-size: 1.3rem; margin-bottom: 12px;
+}
+.panel-block p { color: var(--text-dim); }
+.check-list { list-style: none; display: grid; gap: 10px; }
+.check-list li {
+  color: var(--text-dim); padding-left: 26px; position: relative;
+}
+.check-list li::before {
+  content: '✓'; position: absolute; left: 0;
+  color: var(--green); font-family: var(--mono);
+}
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag {
+  padding: 7px 13px; border-radius: 999px;
+  border: 1px solid var(--line); font-family: var(--mono);
+  font-size: 0.8rem; color: var(--text);
+  background: rgba(255,255,255,0.02);
+  transition: all 0.25s; cursor: default;
+}
+.tag:hover {
+  border-color: var(--green); color: var(--green-bright);
+  background: rgba(74,222,128,0.08); transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(74,222,128,0.15);
+}
+
+/* ===== CTA ===== */
+.cta-panel {
+  max-width: 1240px; margin: 60px auto 0; padding: 0 32px;
+}
+.cta-inner {
+  padding: 36px 34px; border-radius: var(--radius);
+  border: 1px solid var(--line-strong);
+  background: radial-gradient(circle at top right, rgba(34,211,238,0.1), transparent 35%),
+    linear-gradient(135deg, rgba(74,222,128,0.06), rgba(255,255,255,0.01)), var(--panel);
+  display: flex; justify-content: space-between; align-items: center; gap: 24px;
+}
+.cta-inner h2 {
+  font-family: var(--display); font-size: 1.6rem; margin-bottom: 10px;
+}
+.cta-inner p { color: var(--text-dim); max-width: 55ch; }
+
+/* ===== FOOTER ===== */
+.site-footer {
+  max-width: 1240px; margin: 0 auto;
+  padding: 28px 32px; border-top: 1px solid var(--line);
+  font-family: var(--mono); font-size: 0.8rem; color: var(--text-mute);
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  margin-top: 80px;
+}
+.site-footer::before {
+  content: '● online'; color: var(--green); font-weight: 500;
+}
+
+/* ===== REVEAL ===== */
+.reveal-el {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal-el.visible {
+  opacity: 1; transform: translateY(0);
+}
+
+/* ===== MOBILE ===== */
+.mobile-toggle {
+  display: none; width: 42px; height: 42px; border-radius: 999px;
+  border: 1px solid var(--line); background: rgba(255,255,255,0.03);
+  cursor: pointer; flex-direction: column; justify-content: center;
+  gap: 5px; padding: 0 10px; align-items: stretch;
+}
+.mobile-toggle span {
+  display: block; height: 2px; background: var(--text);
+  border-radius: 2px; transition: all 0.25s;
+}
+
+@media (max-width: 900px) {
+  .mobile-toggle { display: flex; }
+  .nav-links {
+    position: fixed; top: 62px; right: 0; bottom: 0; width: 280px;
+    flex-direction: column; padding: 20px 16px;
+    background: var(--bg-0); border-left: 1px solid var(--line-strong);
+    transform: translateX(100%); opacity: 0; pointer-events: none;
+    transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.25s;
+    z-index: 95;
+  }
+  .nav-links.open {
+    transform: translateX(0); opacity: 1; pointer-events: auto;
+  }
+  .nav-links a { padding: 14px 18px; border: 1px solid var(--line); border-radius: var(--radius-sm); }
+  .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+  .hero-terminal { transform: none; }
+  .hero-terminal:hover { transform: none; }
+  .cards-grid, .projects-grid { grid-template-columns: 1fr; }
+  .feature-grid { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: repeat(2,1fr); }
+  .cta-inner { flex-direction: column; align-items: flex-start; }
+  .site-footer { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 600px) {
+  .hero-terminal { display: none; }
+  .stats-row { grid-template-columns: 1fr; }
+}
+</style>
+<template id="__bundler_thumbnail">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <rect width="200" height="200" rx="24" fill="#050807"/>
+  <rect x="30" y="30" width="140" height="140" rx="20" stroke="#4ade80" stroke-width="2" fill="none" opacity="0.3"/>
+  <text x="100" y="112" text-anchor="middle" font-family="monospace" font-size="36" font-weight="bold" fill="#4ade80">AC</text>
+</svg>
+</template>
+</head>
+<body>
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="aurora"></div>
+<div class="grid-overlay"></div>
+<div class="scanlines"></div>
+<canvas id="particles"></canvas>
+<div class="cursor-glow" id="cursorGlow"></div>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback, useMemo, memo } = React;
+
+/* ======== CURSOR GLOW ======== */
+(function initCursorGlow() {
+  const glow = document.getElementById('cursorGlow');
+  if (!glow) return;
+  document.addEventListener('mousemove', (e) => {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top = e.clientY + 'px';
+  }, { passive: true });
+})();
+
+/* ======== TWEAKS ======== */
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accentHue": 128,
+  "particleDensity": 95,
+  "glowIntensity": 1.3,
+  "terminalStyle": "matrix",
+  "logoVariant": "monogram",
+  "matrixRain": false,
+  "scanlines": true,
+  "gridOverlay": false,
+  "theme": "dark"
+}/*EDITMODE-END*/;
+
+/* ======== PARTICLES ======== */
+function initParticles(density) {
+  const canvas = document.getElementById('particles');
+  if (!canvas) return () => {};
+  const ctx = canvas.getContext('2d');
+  let w, h, particles = [], animId;
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+
+  function createParticles() {
+    particles = [];
+    const count = Math.floor((w * h) / (14000 - density * 100));
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * w, y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        r: Math.random() * 1.5 + 0.5,
+        o: Math.random() * 0.5 + 0.1
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    for (const p of particles) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
+      if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(74,222,128,${p.o})`;
+      ctx.fill();
+    }
+    // connections
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = dx * dx + dy * dy;
+        if (dist < 12000) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(74,222,128,${0.08 * (1 - dist / 12000)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    animId = requestAnimationFrame(draw);
+  }
+
+  resize();
+  createParticles();
+  draw();
+  window.addEventListener('resize', () => { resize(); createParticles(); });
+
+  return () => cancelAnimationFrame(animId);
+}
+
+/* ======== LOGO VARIANTS ======== */
+function LogoMonogram() {
+  return (
+    <svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="1" y="1" width="36" height="36" rx="10" stroke="url(#lg)" strokeWidth="1.5" fill="rgba(74,222,128,0.04)"/>
+      <defs>
+        <linearGradient id="lg" x1="0" y1="0" x2="38" y2="38">
+          <stop offset="0%" stopColor="#7cffa0"/>
+          <stop offset="100%" stopColor="#22d3ee"/>
+        </linearGradient>
+      </defs>
+      <text x="19" y="25" textAnchor="middle" fontFamily="'Unbounded',sans-serif" fontSize="14" fontWeight="800" fill="url(#lg)">AC</text>
+    </svg>
+  );
+}
+
+function LogoGeo() {
+  return (
+    <svg viewBox="0 0 38 38" fill="none">
+      <polygon points="19,2 36,19 19,36 2,19" stroke="#4ade80" strokeWidth="1.5" fill="rgba(74,222,128,0.04)"/>
+      <text x="19" y="23" textAnchor="middle" fontFamily="'JetBrains Mono',monospace" fontSize="10" fontWeight="700" fill="#7cffa0">AC</text>
+    </svg>
+  );
+}
+
+function LogoTerminal() {
+  return (
+    <svg viewBox="0 0 38 38" fill="none">
+      <rect x="2" y="2" width="34" height="34" rx="4" stroke="#4ade80" strokeWidth="1" fill="rgba(74,222,128,0.03)"/>
+      <text x="6" y="15" fontFamily="'JetBrains Mono',monospace" fontSize="8" fill="#4ade80">$_</text>
+      <text x="19" y="28" textAnchor="middle" fontFamily="'Unbounded',sans-serif" fontSize="11" fontWeight="800" fill="#7cffa0">AC</text>
+    </svg>
+  );
+}
+
+/* ======== 3D CARD ======== */
+function Card3D({ children, className = '', href, onClick, style }) {
+  const ref = useRef(null);
+
+  const handleMouseMove = useCallback((e) => {
+    const el = ref.current; if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    const rotY = ((x - cx) / cx) * 8;
+    const rotX = ((cy - y) / cy) * 6;
+    el.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-6px)`;
+    el.style.boxShadow = `0 20px 50px rgba(74,222,128,0.2)`;
+    el.style.setProperty('--mx', x + 'px');
+    el.style.setProperty('--my', y + 'px');
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    const el = ref.current; if (!el) return;
+    el.style.transform = '';
+    el.style.boxShadow = '';
+  }, []);
+
+  const Tag = href ? 'a' : 'div';
+  return (
+    <Tag ref={ref} className={`card-3d ${className}`} href={href} onClick={onClick} style={{cursor: onClick || href ? 'pointer' : undefined, ...style}}
+      onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
+      {children}
+    </Tag>
+  );
+}
+
+/* ======== REVEAL ======== */
+function Reveal({ children, delay = 0, className = '' }) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { setVisible(true); obs.unobserve(el); }
+    }, { threshold: 0.1 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} className={`reveal-el ${visible ? 'visible' : ''} ${className}`}
+      style={{ transitionDelay: `${delay * 0.08}s` }}>
+      {children}
+    </div>
+  );
+}
+
+/* ======== INTERACTIVE TERMINAL ======== */
+function InteractiveTerminal() {
+  const [output, setOutput] = useState(null);
+  const [running, setRunning] = useState(false);
+
+  const code = `const dev = {
+  name: "Александр",
+  stack: ["Java", "Python", "JavaScript", "Git"]
+};
+
+function buildPortfolio() {
+  return [\`Hi, \${dev.name}!\`];
+}
+
+// Запускаем!
+const result = buildPortfolio();
+console.log(result.join("\\n"));
+console.log("\\nStack: " + dev.stack.join(" → "));`;
+
+  const runCode = () => {
+    setRunning(true);
+    setOutput([]);
+    const lines = [];
+    const fakeConsole = { log: (...args) => lines.push(args.join(' ')) };
+
+    setTimeout(() => {
+      try {
+        const fn = new Function('console', code);
+        fn(fakeConsole);
+      } catch (e) {
+        lines.push('Error: ' + e.message);
+      }
+      // Stagger output lines
+      lines.forEach((line, i) => {
+        setTimeout(() => {
+          setOutput(prev => [...prev, line]);
+          if (i === lines.length - 1) setRunning(false);
+        }, i * 200);
+      });
+    }, 400);
+  };
+
+  return (
+    <div className="hero-terminal">
+      <div className="terminal-bar">
+        <div className="terminal-dot"></div>
+        <div className="terminal-dot"></div>
+        <div className="terminal-dot"></div>
+        <div className="terminal-title">~/team/hello.js</div>
+        <button className="code-run-btn" onClick={runCode} disabled={running}>
+          {running ? '⟳ running...' : '▶ Run'}
+        </button>
+      </div>
+      <div className="terminal-body">
+        <pre style={{margin:0,whiteSpace:'pre-wrap',fontFamily:'inherit',fontSize:'inherit',lineHeight:'inherit'}}>
+{`const dev = {
+  name: `}<span className="str">"Александр"</span>{`,
+  stack: [`}<span className="str">"Java"</span>{`, `}<span className="str">"Python"</span>{`, `}<span className="str">"JavaScript"</span>{`, `}<span className="str">"Git"</span>{`]
+};
+
+`}<span className="kw">function</span>{` `}<span className="fn">buildPortfolio</span>{`() {
+  `}<span className="kw">return</span>{` [\`Hi, \${dev.name}!\`];
+}
+
+`}<span className="cm">{"// Запускаем!"}</span>{`
+`}<span className="kw">const</span>{` result = buildPortfolio();
+console.`}<span className="fn">log</span>{`(result.join("\\n"));
+console.`}<span className="fn">log</span>{`("\\nStack: " + dev.stack.join(" → "));`}
+        </pre>
+      </div>
+      {output !== null && (
+        <div className="code-output">
+          <div style={{fontFamily:'var(--mono)',fontSize:'0.72rem',color:'var(--text-mute)',marginBottom:8}}>{'> output:'}</div>
+          {output.map((line, i) => (
+            <div key={i} className="code-output-line" style={{animationDelay: `${i * 0.1}s`}}>{line}</div>
+          ))}
+          {running && <span style={{color:'var(--green)',animation:'pulse 0.8s steps(1) infinite'}}>█</span>}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ======== ANIMATED COUNTER ======== */
+function AnimatedCounter({ target, suffix = '' }) {
+  const [val, setVal] = useState(0);
+  const ref = useRef(null);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !started.current) {
+        started.current = true;
+        const num = parseInt(target) || 0;
+        const dur = 1200;
+        const start = performance.now();
+        const tick = (now) => {
+          const p = Math.min((now - start) / dur, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          setVal(Math.round(eased * num));
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }
+    }, { threshold: 0.3 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [target]);
+
+  return <span ref={ref} className="counter-animate">{val}{suffix}</span>;
+}
+
+/* ======== SKILL METER ======== */
+function SkillMeter({ label, pct }) {
+  const ref = useRef(null);
+  const [filled, setFilled] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { setFilled(true); obs.unobserve(el); }
+    }, { threshold: 0.3 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <div className="skill-meter-item" ref={ref}>
+      <div className="skill-meter-label"><span>{label}</span><span>{pct}%</span></div>
+      <div className="skill-meter-bar">
+        <div className={`skill-meter-fill ${filled ? 'filled' : ''}`} style={{ '--fill': pct + '%' }}></div>
+      </div>
+    </div>
+  );
+}
+
+/* ======== PARALLAX HOOK ======== */
+function useParallax(speed = 0.15) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    const handler = () => {
+      const rect = el.getBoundingClientRect();
+      const center = rect.top + rect.height / 2;
+      const viewCenter = window.innerHeight / 2;
+      const offset = (center - viewCenter) * speed;
+      el.style.transform = `translateY(${offset}px)`;
+    };
+    window.addEventListener('scroll', handler, { passive: true });
+    handler();
+    return () => window.removeEventListener('scroll', handler);
+  }, [speed]);
+  return ref;
+}
+
+/* ======== GLITCH TITLE ======== */
+function GlitchTitle({ children }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    const trigger = () => {
+      el.classList.add('glitch-active');
+      setTimeout(() => el.classList.remove('glitch-active'), 500);
+      setTimeout(trigger, 3000 + Math.random() * 5000);
+    };
+    const t = setTimeout(trigger, 2000);
+    return () => clearTimeout(t);
+  }, []);
+  return <span ref={ref}>{children}</span>;
+}
+
+/* ======== PARALLAX ELEMENT ======== */
+function ParallaxElement({ children, speed = -0.1 }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    let ticking = false;
+    const handler = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const rect = el.getBoundingClientRect();
+        const center = rect.top + rect.height / 2;
+        const viewCenter = window.innerHeight / 2;
+        const offset = (center - viewCenter) * speed;
+        el.style.transform = `translateY(${offset}px)`;
+        ticking = false;
+      });
+    };
+    window.addEventListener('scroll', handler, { passive: true });
+    handler();
+    return () => window.removeEventListener('scroll', handler);
+  }, [speed]);
+  return <div ref={ref} style={{ willChange: 'transform' }}>{children}</div>;
+}
+
+/* ======== PARALLAX BAND ======== */
+function ParallaxBand({ gradient, title, subtitle }) {
+  const bgRef = useRef(null);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const bg = bgRef.current;
+    const container = containerRef.current;
+    if (!bg || !container) return;
+    let ticking = false;
+    const handler = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const rect = container.getBoundingClientRect();
+        const progress = (rect.top) / window.innerHeight;
+        bg.style.transform = `translateY(${progress * 60}px) scale(1.15)`;
+        ticking = false;
+      });
+    };
+    window.addEventListener('scroll', handler, { passive: true });
+    handler();
+    return () => window.removeEventListener('scroll', handler);
+  }, []);
+
+  return (
+    <div className="parallax-band" ref={containerRef}>
+      <div className="parallax-band-bg" ref={bgRef}
+        style={{ background: gradient || 'rgba(74,222,128,0.03)' }}></div>
+      {/* Animated grid lines inside band */}
+      <div style={{
+        position:'absolute', inset:0, zIndex:0, pointerEvents:'none',
+        backgroundImage: 'linear-gradient(rgba(74,222,128,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(74,222,128,0.04) 1px, transparent 1px)',
+        backgroundSize: '80px 80px', opacity: 0.5
+      }}></div>
+      <div className="parallax-band-content">
+        <Reveal>
+          <p className="eyebrow" style={{textAlign:'center'}}>///</p>
+          <h2>{title}</h2>
+          {subtitle && <p>{subtitle}</p>}
+        </Reveal>
+      </div>
+    </div>
+  );
+}
+
+/* ======== FLOATING ORBS ======== */
+function FloatingOrbs() {
+  const orbs = useRef([]);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    let ticking = false;
+    const handler = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+        orbs.current.forEach((el, i) => {
+          if (!el) return;
+          const speeds = [0.05, -0.03, 0.07, -0.04];
+          const offset = scrollY * (speeds[i] || 0.05);
+          el.style.transform = `translateY(${offset}px)`;
+        });
+        ticking = false;
+      });
+    };
+    window.addEventListener('scroll', handler, { passive: true });
+    return () => window.removeEventListener('scroll', handler);
+  }, []);
+
+  const orbStyles = [
+    { width: 300, height: 300, top: '15vh', left: '5%', background: 'radial-gradient(circle, rgba(74,222,128,0.08), transparent 70%)', filter: 'blur(60px)' },
+    { width: 400, height: 400, top: '50vh', right: '0%', left: 'auto', background: 'radial-gradient(circle, rgba(34,211,238,0.06), transparent 70%)', filter: 'blur(70px)' },
+    { width: 250, height: 250, top: '120vh', left: '15%', background: 'radial-gradient(circle, rgba(244,114,182,0.05), transparent 70%)', filter: 'blur(50px)' },
+    { width: 350, height: 350, top: '200vh', right: '10%', left: 'auto', background: 'radial-gradient(circle, rgba(74,222,128,0.06), transparent 70%)', filter: 'blur(60px)' },
+  ];
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 0, overflow: 'hidden' }}>
+      {orbStyles.map((s, i) => (
+        <div key={i} ref={el => orbs.current[i] = el}
+          style={{ position: 'absolute', borderRadius: '50%', willChange: 'transform', ...s }}></div>
+      ))}
+    </div>
+  );
+}
+
+/* ======== MAIN APP ======== */
+function App() {
+  const [tweaks, setTweak] = window.useTweaks(TWEAK_DEFAULTS);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState('home');
+
+  // Init particles
+  useEffect(() => {
+    const cleanup = initParticles(tweaks.particleDensity);
+    return cleanup;
+  }, [tweaks.particleDensity]);
+
+  // Scroll progress
+  useEffect(() => {
+    const bar = document.getElementById('scrollProgress');
+    const update = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      if (max > 0) bar.style.width = `${(window.scrollY / max) * 100}%`;
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    return () => window.removeEventListener('scroll', update);
+  }, []);
+
+  // Theme
+  useEffect(() => {
+    document.documentElement.dataset.theme = tweaks.theme;
+  }, [tweaks.theme]);
+
+  const toggleTheme = () => {
+    const next = tweaks.theme === 'dark' ? 'light' : 'dark';
+    setTweak('theme', next);
+  };
+
+  // Apply accent hue
+  useEffect(() => {
+    const hue = tweaks.accentHue;
+    const root = document.documentElement;
+    root.style.setProperty('--green', `oklch(0.72 0.19 ${hue})`);
+    root.style.setProperty('--green-bright', `oklch(0.82 0.22 ${hue})`);
+  }, [tweaks.accentHue]);
+
+  // Matrix rain
+  useEffect(() => {
+    if (!tweaks.matrixRain) return;
+    const canvas = document.getElementById('matrixCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const cols = Math.floor(canvas.width / 16);
+    const drops = Array(cols).fill(0);
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()アイウエオカキクケコ';
+    let animId;
+    const draw = () => {
+      ctx.fillStyle = 'rgba(5,8,7,0.08)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#4ade80';
+      ctx.font = '14px monospace';
+      for (let i = 0; i < drops.length; i++) {
+        const ch = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(ch, i * 16, drops[i] * 16);
+        if (drops[i] * 16 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+      animId = requestAnimationFrame(draw);
+    };
+    draw();
+    return () => cancelAnimationFrame(animId);
+  }, [tweaks.matrixRain]);
+
+  // Active nav section tracking
+  const [activeSection, setActiveSection] = useState('home');
+  useEffect(() => {
+    const sections = ['home','about','skills','education','projects','contacts'];
+    const handler = () => {
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const el = document.getElementById(`section-${sections[i]}`);
+        if (el && el.getBoundingClientRect().top < window.innerHeight * 0.4) {
+          setActiveSection(sections[i]); break;
+        }
+      }
+    };
+    window.addEventListener('scroll', handler, { passive: true });
+    handler();
+    return () => window.removeEventListener('scroll', handler);
+  }, []);
+
+  const LogoComponent = tweaks.logoVariant === 'geometric' ? LogoGeo
+    : tweaks.logoVariant === 'terminal' ? LogoTerminal : LogoMonogram;
+
+  const navItems = [
+    { id: 'home', label: 'Главная' },
+    { id: 'about', label: 'Обо мне' },
+    { id: 'skills', label: 'Навыки' },
+    { id: 'projects', label: 'Проекты' },
+    { id: 'contacts', label: 'Контакты' },
+  ];
+
+  const scrollTo = (id) => {
+    setMenuOpen(false);
+    const el = document.getElementById(`section-${id}`);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  return (
+    <div className="page">
+      {/* NAV */}
+      <nav className="nav-bar">
+        <div className="nav-inner">
+          <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
+            {navItems.map(n => (
+              <li key={n.id}><a href={`#${n.id}`} className={activeSection === n.id ? 'active' : ''} onClick={(e) => { e.preventDefault(); scrollTo(n.id); }}>{n.label}</a></li>
+            ))}
+          </ul>
+          <button className="theme-toggle" onClick={toggleTheme} aria-label="Переключить тему">
+            {tweaks.theme === 'light' ? '☀' : '◐'}
+          </button>
+          <button className="mobile-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </nav>
+
+      {/* FLOATING ORBS */}
+      <FloatingOrbs />
+
+      {/* HERO */}
+      <section className="hero-section" id="section-home">
+        <div className="hero-grid">
+          <div>
+            <Reveal>
+              <div className="hero-badge">$ whoami --verbose</div>
+            </Reveal>
+            <Reveal delay={1}>
+              <h1 className="hero-title">
+                <GlitchTitle>Александр<br/>Черненко</GlitchTitle>
+              </h1>
+            </Reveal>
+            <Reveal delay={2}>
+              <p className="hero-sub">Разработчик. Пишу код на Java, Python и JavaScript — от Minecraft-модов до веб-проектов. Работаю с Git, делаю понятные и рабочие вещи.</p>
+            </Reveal>
+            <Reveal delay={3}>
+              <div className="hero-buttons">
+                <a className="btn" href="#projects" onClick={(e) => { e.preventDefault(); scrollTo('projects'); }}>Смотреть проекты →</a>
+                <a className="btn btn-ghost" href="#contacts" onClick={(e) => { e.preventDefault(); scrollTo('contacts'); }}>Связаться</a>
+              </div>
+            </Reveal>
+          </div>
+
+          <Reveal delay={2}>
+            <ParallaxElement speed={-0.08}>
+              <InteractiveTerminal />
+            </ParallaxElement>
+          </Reveal>
+        </div>
+
+        <div className="scroll-hint">
+          <span>scroll</span>
+          <div className="scroll-hint-line"></div>
+        </div>
+      </section>
+
+      {/* STATS */}
+      <Reveal>
+        <div className="stats-row" style={{gridTemplateColumns:'repeat(3,1fr)',marginBottom:40}}>
+          {[
+            { n: 5, s: '+', l: 'технологий в работе' },
+            { n: 3, s: '', l: 'направления роста' },
+            { n: 2, s: '', l: 'проекта на GitHub' },
+          ].map((s, i) => (
+            <div className="stat-card" key={i}>
+              <div className="stat-num"><AnimatedCounter target={s.n} suffix={s.s} /></div>
+              <div className="stat-label">{s.l}</div>
+            </div>
+          ))}
+        </div>
+      </Reveal>
+
+      {/* PARALLAX BAND 1 */}
+      <ParallaxBand
+        gradient="linear-gradient(135deg, rgba(74,222,128,0.08), rgba(34,211,238,0.05))"
+        title="Код — мой язык"
+        subtitle="Лучший способ научиться — делать реальные проекты"
+      />
+
+      <div className="section-divider"></div>
+
+      {/* ABOUT SECTION */}
+      <div id="section-about">
+        <Reveal><div className="section-head">
+          <p className="eyebrow">Что здесь есть</p>
+          <h2>Кратко о портфолио</h2>
+          <p className="section-lead">Здесь собраны навыки, проекты и контакты — всё что нужно, чтобы понять с кем ты имеешь дело.</p>
+        </div></Reveal>
+
+        <div className="cards-grid" style={{gridTemplateColumns:'repeat(3,1fr)',marginBottom:40}}>
+          {[
+            { icon: '👋', title: 'Обо мне', desc: 'Разработчик. Работаю с frontend и backend, пишу ботов и моды на Java. Вхожу в проект на любом этапе.', to: 'about' },
+            { icon: '⚡', title: 'Навыки', desc: 'Что умею и где это реально применяю.', to: 'skills' },
+            { icon: '📁', title: 'Проекты', desc: 'Реальные работы с кодом на GitHub — от Minecraft-модов до ботов.', to: 'projects' },
+          ].map((c, i) => (
+            <Reveal key={i} delay={i + 1}>
+              <Card3D href={`#${c.to}`} onClick={(e) => { e.preventDefault(); scrollTo(c.to); }} style={{height:'100%'}}>
+                <div className="card-icon-box">{c.icon}</div>
+                <span className="card-arrow">↗</span>
+                <h3>{c.title}</h3>
+                <p>{c.desc}</p>
+              </Card3D>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+
+      <div className="section-divider"></div>
+
+      {/* PARALLAX BAND 2 */}
+      <ParallaxBand
+        gradient="linear-gradient(135deg, rgba(34,211,238,0.06), rgba(244,114,182,0.04))"
+        title="Код — это инструмент"
+        subtitle="Делаю проекты, которые работают и решают реальные задачи"
+      />
+
+      {/* ABOUT ME */}
+      <Reveal><div className="section-head" style={{maxWidth:1240,margin:'0 auto',padding:'80px 32px 40px'}}>
+        <p className="eyebrow">Разработчик</p>
+        <h2>Обо мне</h2>
+        <p className="section-lead" style={{maxWidth:'80ch'}}>Занимаюсь разработкой и доработкой сайтов, пишу код на заказ под любые задачи. Работаю с frontend и backend, разбираюсь в логике сервисов и могу войти в проект на любом этапе. Делаю аккуратно, в срок и качественно.</p>
+      </div></Reveal>
+
+      <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:20,maxWidth:1240,margin:'0 auto',padding:'0 32px'}}>
+        {[
+          { icon: '🌐', title: 'Веб-разработка', desc: 'Frontend и backend, доработка сайтов, вёрстка по макету, работа с чужим кодом.', tags: ['HTML/CSS','JavaScript','Python'] },
+          { icon: '⚔️', title: 'Minecraft-моды', desc: 'Создание модов с нуля, портирование между версиями и загрузчиками (Forge, NeoForge, Fabric).', tags: ['Java','Fabric','NeoForge'] },
+          { icon: '🤖', title: 'Разработка ботов', desc: 'Боты на Python под задачу: автоматизация, парсинг, Telegram-боты и прочее.', tags: ['Python','Telegram API','автоматизация'] },
+        ].map((item, i) => (
+          <Reveal key={i} delay={i}>
+            <div className="panel-block" style={{height:'100%'}}>
+              <div style={{fontSize:'1.6rem',marginBottom:12}}>{item.icon}</div>
+              <h3>{item.title}</h3>
+              <p style={{color:'var(--text-dim)',fontSize:'0.93rem',margin:'8px 0 14px'}}>{item.desc}</p>
+              <div className="tags">
+                {item.tags.map(t => <span className="tag" key={t}>{t}</span>)}
+              </div>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+
+      {/* SKILLS */}
+      <div id="section-skills">
+        <Reveal><div className="section-head">
+          <p className="eyebrow">Фокус</p>
+          <h2>Чем могу быть полезен</h2>
+        </div></Reveal>
+
+        {/* SKILL METERS */}
+        <div className="feature-grid" style={{marginBottom:20}}>
+          <Reveal>
+            <div className="panel-block" style={{height:'100%'}}>
+              <p className="eyebrow">Стек</p>
+              <h3>Уровень навыков</h3>
+              <div className="skill-meter-row">
+                <SkillMeter label="HTML & CSS" pct={82} />
+                <SkillMeter label="Python" pct={76} />
+                <SkillMeter label="JavaScript" pct={64} />
+                <SkillMeter label="Java" pct={70} />
+              </div>
+            </div>
+          </Reveal>
+          <Reveal delay={1}>
+            <div className="panel-block" style={{height:'100%'}}>
+              <p className="eyebrow">Сейчас изучаю</p>
+              <h3>Куда расту дальше</h3>
+              <ul className="check-list">
+                <li>DOM-логика и продвинутый JS</li>
+                <li>Адаптивная верстка</li>
+                <li>Python automation</li>
+                <li>NeoForge / Fabric API</li>
+              </ul>
+            </div>
+          </Reveal>
+        </div>
+
+        <div className="feature-grid" style={{marginTop:0,marginBottom:40}}>
+          <Reveal>
+            <div className="panel-block">
+              <p className="eyebrow">Применение</p>
+              <h3>Основные навыки</h3>
+              <ul className="check-list">
+                <li>Разработка и доработка сайтов (frontend + backend)</li>
+                <li>Minecraft-моды на Java (Forge / NeoForge / Fabric)</li>
+                <li>Разработка ботов на Python</li>
+                <li>Работа с Git и GitHub</li>
+              </ul>
+            </div>
+          </Reveal>
+          <Reveal delay={1}>
+            <div className="panel-block">
+              <p className="eyebrow">Подход</p>
+              <h3>Как работаю</h3>
+              <ul className="check-list">
+                <li>Разбираюсь в логике проекта перед стартом</li>
+                <li>Вхожу в чужой код без лишних вопросов</li>
+                <li>Делаю аккуратно, в срок и качественно</li>
+                <li>Открыт к правкам и обратной связи</li>
+              </ul>
+            </div>
+          </Reveal>
+        </div>
+      </div>
+
+      <div className="section-divider"></div>
+
+      {/* PARALLAX BAND 3 */}
+      <ParallaxBand
+        gradient="linear-gradient(135deg, rgba(250,204,21,0.05), rgba(74,222,128,0.06))"
+        title="Open Source"
+        subtitle="Все проекты доступны на GitHub — код, документация, история изменений"
+      />
+
+      {/* PROJECTS */}
+      <div id="section-projects">
+        <Reveal><div className="section-head">
+          <p className="eyebrow">Проекты</p>
+          <h2>Выборка того, что уже можно показать</h2>
+          <p className="section-lead">Учебные и портфолио-работы с реальным кодом на GitHub.</p>
+        </div></Reveal>
+
+        <div className="projects-grid" style={{gridTemplateColumns:'repeat(2,1fr)'}}>
+          {[
+            { meta: 'Java / Fabric / Minecraft', title: 'Musoku Again', desc: 'Мод для Minecraft на основе аниме Mushoku Tensei. Система магии, стойки, кастомные мобы, боссы и полноценная прогрессия персонажа.', points: ['Fabric 1.21.1','Кастомные механики и HUD','Система спеллов, маны и токи','Боссы и кастомные мобы'], links: [{ label: 'GitHub', href: 'https://github.com/asidache/musokuagain' }] },
+            { meta: 'Java / Meteor Client', title: 'Addon for Chembers', desc: 'Аддон для Meteor-клиента, отображающий залутанные хранилища в Дворце испытаний. Позволяет не тратить время на уже обысканные комнаты.', points: ['Интеграция с Meteor Client','Отслеживание залутанных хранилищ','Дворец испытаний (Trial Chambers)','Лёгкая установка'], links: [{ label: 'GitHub', href: 'https://github.com/asidache/addonforchembers' }] },
+          ].map((p, i) => (
+            <Reveal key={i} delay={i}>
+              <Card3D>
+                <div className="project-meta-tag">{p.meta}</div>
+                <h3>{p.title}</h3>
+                <p>{p.desc}</p>
+                <ul className="project-points">
+                  {p.points.map(pt => <li key={pt}>{pt}</li>)}
+                </ul>
+                <div className="project-links">
+                  {p.links.map(l => <a key={l.label} href={l.href} target="_blank" rel="noopener">{l.label}</a>)}
+                </div>
+              </Card3D>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+
+
+      {/* CONTACTS */}
+      <div id="section-contacts">
+        <Reveal><div className="section-head">
+          <p className="eyebrow">Связь</p>
+          <h2>Контакты</h2>
+          <p className="section-lead">Если нужно посмотреть репозитории, написать по проекту или просто связаться.</p>
+        </div></Reveal>
+
+        <div className="cards-grid" style={{gridTemplateColumns:'repeat(3,1fr)'}}>
+          {[
+            { icon: <img src="images/github-icon.svg" alt="" style={{width:28,height:28,filter:'brightness(0) invert(1)'}}/>, title: 'GitHub', desc: 'Все проекты с кодом и историей изменений.', link: 'https://github.com/asidache', linkText: 'Открыть GitHub →' },
+            { icon: <img src="images/email-icon.svg" alt="" style={{width:28,height:28,filter:'brightness(0) invert(1)'}}/>, title: 'Email', desc: 'Для вопросов по проектам и предложений о сотрудничестве.', link: 'mailto:ididkisjsu@gmail.com', linkText: 'ididkisjsu@gmail.com' },
+            { icon: <img src="images/telegram-icon.png" alt="" style={{width:28,height:28}}/>, title: 'Telegram', desc: 'Основной способ связи — отвечу быстро.', link: 'https://t.me/damnprice', linkText: '@damnprice →' },
+          ].map((c, i) => (
+            <Reveal key={i} delay={i}>
+              <Card3D style={{height:'100%', display:'flex', flexDirection:'column', justifyContent:'space-between'}}>
+                <div>
+                  <div className="card-icon-box">{c.icon}</div>
+                  <h3>{c.title}</h3>
+                  <p>{c.desc}</p>
+                </div>
+                <a href={c.link} target="_blank" rel="noopener" style={{
+                  display:'inline-flex', marginTop: 16,
+                  fontFamily:'var(--mono)', fontSize:'0.84rem', color:'var(--cyan)',
+                  borderBottom:'1px dashed rgba(34,211,238,0.4)', transition:'all 0.2s'
+                }}>{c.linkText}</a>
+              </Card3D>
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal>
+          <div style={{ maxWidth: 1240, margin: '28px auto 0', padding: '0 32px' }}>
+            <div className="panel-block">
+              <p className="eyebrow">Важно</p>
+              <h3>Что можно написать</h3>
+              <ul className="check-list">
+                <li>Вопросы по учебным проектам</li>
+                <li>Обратная связь по сайту</li>
+                <li>Обсуждение репозиториев и кода</li>
+                <li>Предложения по совместным мини-проектам</li>
+              </ul>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+
+
+      {/* FOOTER */}
+      <footer className="site-footer">
+        <span></span>
+        <p>© {new Date().getFullYear()} Александр Черненко</p>
+      </footer>
+
+      {/* MATRIX CANVAS */}
+      {tweaks.matrixRain && <canvas id="matrixCanvas" style={{position:'fixed',inset:0,zIndex:-1,pointerEvents:'none',opacity:0.04}}></canvas>}
+
+      {/* CONDITIONAL OVERLAYS */}
+      {!tweaks.scanlines && <style dangerouslySetInnerHTML={{__html: '.scanlines{display:none!important}'}} />}
+      {!tweaks.gridOverlay && <style dangerouslySetInnerHTML={{__html: '.grid-overlay{display:none!important}'}} />}
+
+      {/* TWEAKS */}
+      {window.TweaksPanel && (
+        <window.TweaksPanel>
+          <window.TweakSection title="Цвет и форма">
+            <window.TweakSelect label="Тема" value={tweaks.theme}
+              options={[{value:'dark',label:'Тёмная'},{value:'light',label:'Светлая'}]}
+              onChange={v => setTweak('theme', v)} />
+            <window.TweakSelect label="Логотип" value={tweaks.logoVariant}
+              options={[{value:'monogram',label:'Монограмма'},{value:'geometric',label:'Геометрия'},{value:'terminal',label:'Терминал'}]}
+              onChange={v => setTweak('logoVariant', v)} />
+            <window.TweakSlider label="Оттенок акцента" value={tweaks.accentHue}
+              min={0} max={360} step={1} onChange={v => setTweak('accentHue', v)} />
+          </window.TweakSection>
+          <window.TweakSection title="Эффекты">
+            <window.TweakSlider label="Плотность частиц" value={tweaks.particleDensity}
+              min={20} max={150} step={5} onChange={v => setTweak('particleDensity', v)} />
+            <window.TweakSlider label="Свечение" value={tweaks.glowIntensity}
+              min={0} max={2} step={0.1} onChange={v => setTweak('glowIntensity', v)} />
+            <window.TweakToggle label="Matrix Rain" value={tweaks.matrixRain}
+              onChange={v => setTweak('matrixRain', v)} />
+            <window.TweakToggle label="Scanlines" value={tweaks.scanlines}
+              onChange={v => setTweak('scanlines', v)} />
+            <window.TweakToggle label="Сетка" value={tweaks.gridOverlay}
+              onChange={v => setTweak('gridOverlay', v)} />
+          </window.TweakSection>
+        </window.TweaksPanel>
+      )}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
